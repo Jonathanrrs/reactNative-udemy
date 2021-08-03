@@ -7,7 +7,8 @@ export const useUsuarios = () => {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     
     const paginaRef = useRef(1);
-
+    console.log(paginaRef);
+    
     useEffect(() => {
         /* llamado al api */
         cargarUsuarios();
@@ -19,16 +20,32 @@ export const useUsuarios = () => {
                 page: paginaRef.current
             }
         })
+        setUsuarios(resp.data.data);
+        
         if (resp.data.data.length > 0) {
             setUsuarios(resp.data.data);
-            paginaRef.current++;
         } else {
+            paginaRef.current--;
             alert('No hay más registros');
         }
     }
 
+    const paginaSiguiente = () => {
+        paginaRef.current++;
+        cargarUsuarios();
+        
+    }
+    const paginaAnterior = () => {
+        if (paginaRef.current > 1) {
+            paginaRef.current--;
+            cargarUsuarios();
+        }
+        
+    }
+
     return {
         usuarios,
-        cargarUsuarios
+        paginaSiguiente,
+        paginaAnterior
     }
 }
