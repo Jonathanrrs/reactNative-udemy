@@ -11,10 +11,22 @@ export const Usuarios = () => {
         /* llamado al api */
         reqResApi.get<ReqResListado>('/users')
             .then(resp => {
-                console.log(resp.data.data);
+                setUsuarios(resp.data.data)
             })
             .catch(console.log);
-    }, [])
+    }, []);
+
+    const renderItem = ({id, first_name, last_name, email, avatar}: Usuario) => {
+        return (
+            <tr key={id.toString()}>
+                <td>
+                    <img src={avatar} alt={avatar} style={{width: 50, borderRadius: 100}}/>
+                </td>
+                <td>{first_name}</td>
+                <td>{email}</td>
+            </tr>
+        )
+    }
 
     return (
         <>
@@ -28,7 +40,9 @@ export const Usuarios = () => {
                     </tr>
                 </thead>
                 <tbody>
-
+                    {
+                        usuarios.map(usuario => renderItem(usuario))
+                    }
                 </tbody>
             </table>
         </>
