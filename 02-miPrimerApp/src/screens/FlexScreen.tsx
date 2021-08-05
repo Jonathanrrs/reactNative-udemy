@@ -16,10 +16,8 @@ const styles = StyleSheet.create({
         // height: 300,
         flex: 1,
         backgroundColor: '#28C4D9',
-        flexDirection: 'row',
-        // justifyContent: 'center',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end'
+       flexDirection: 'row',
+       alignItems: 'flex-start'
 
 
     },
@@ -27,15 +25,18 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
+        alignSelf: 'flex-start'
     },
     caja2: {
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
+        alignSelf: 'flex-start'
     },
     caja3: {
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
+        alignSelf: 'flex-end'
     },
 });
