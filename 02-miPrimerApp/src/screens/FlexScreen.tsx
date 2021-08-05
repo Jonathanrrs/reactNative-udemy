@@ -7,6 +7,30 @@ export const FlexScreen = () => {
             <Text style={styles.caja1}>Caja 1</Text>
             <Text style={styles.caja2}>Caja 2</Text>
             <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
+            <Text style={styles.caja1}>Caja 1</Text>
+            <Text style={styles.caja2}>Caja 2</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
         </View>
     )
 }
@@ -16,8 +40,9 @@ const styles = StyleSheet.create({
         // height: 300,
         flex: 1,
         backgroundColor: '#28C4D9',
-       flexDirection: 'row',
-       alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        flexWrap: 'wrap'
 
 
     },
@@ -25,18 +50,18 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
-        alignSelf: 'flex-start'
+
     },
     caja2: {
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
-        alignSelf: 'flex-start'
+
     },
     caja3: {
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
-        alignSelf: 'flex-end'
+
     },
 });
