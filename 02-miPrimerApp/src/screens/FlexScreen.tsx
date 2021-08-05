@@ -6,7 +6,7 @@ export const FlexScreen = () => {
         <View style={styles.container}>
             <Text style={styles.caja1}>Caja 1</Text>
             <Text style={styles.caja2}>Caja 2</Text>
-            <Text style={styles.caja3}>Caja3</Text>
+            <Text style={styles.caja3}>Caja 3</Text>
         </View>
     )
 }
@@ -14,24 +14,25 @@ export const FlexScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#28C4D9'
+        backgroundColor: '#28C4D9',
+        flexDirection: 'row'
     },
     caja1: {
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
-        flex: 3
+        width: 100,
     },
     caja2: {
+        width: 100,
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
-        flex: 2
     },
     caja3: {
+        width: 100,
         borderWidth: 2,
         borderColor: 'white',
         fontSize: 30,
-        flex: 1
     },
 });
