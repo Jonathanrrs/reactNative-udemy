@@ -16,25 +16,33 @@ export const styles = StyleSheet.create({
     resultado: {
         color: 'white',
         fontSize: 60,
-        textAlign: 'right'
+        textAlign: 'right',
+        marginBottom: 10
     },
     resultadoPequeno: {
         color: 'rgba(255,255,255,0.5)',
         fontSize: 30,
         textAlign: 'right'
     },
+    fila: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 18,
+        paddingHorizontal: 10
+    },
     boton: {
+        borderRadius: 100,
         height: 80,
         width: 80,
-        backgroundColor: '#9B9B9B',
-        borderRadius: 100,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginHorizontal: 10,
+        backgroundColor: '#2D2D2D',
     },
     botonTexto: {
         textAlign: 'center',
         padding: 10,
         fontSize: 30,
-        color: 'black',
+        color: 'white',
         fontWeight: '300'
     }
 });
