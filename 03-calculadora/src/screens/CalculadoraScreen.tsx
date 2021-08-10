@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Text, View } from 'react-native'
 import { BotonCal } from '../components/BotonCal'
 import { styles } from '../theme/appTheme'
+
+enum Operadores {
+    sumar, restar, multiplicar, dividir
+}
 
 export const CalculadoraScreen = () => {
 
     const [numeroAnterior, setNumeroAnterior] = useState('0');
     const [numero, setNumero] = useState('0');
 
+    const ultimaOperacion = useRef<Operadores>()
+
     const limpiar = () => {
         setNumero('0');
+        setNumeroAnterior('0');
     }
 
     const armarNumero = (numeroTexto: string) => {
@@ -66,9 +73,40 @@ export const CalculadoraScreen = () => {
        }
     }
 
+    const cambiarNumPorAnterior = () => {
+        if(numero.endsWith('.')) {
+            setNumeroAnterior(numero.slice(0, -1));
+        } else {
+            setNumeroAnterior(numero);
+        }
+        setNumero('0');
+    }
+
+    const btnDividir = () => {
+        cambiarNumPorAnterior();
+        ultimaOperacion.current = Operadores.dividir;
+    }
+    const btnMultiplicar = () => {
+        cambiarNumPorAnterior();
+        ultimaOperacion.current = Operadores.multiplicar;
+    }
+    const btnRestar = () => {
+        cambiarNumPorAnterior();
+        ultimaOperacion.current = Operadores.restar;
+    }
+    const btnSumar = () => {
+        cambiarNumPorAnterior();
+        ultimaOperacion.current = Operadores.sumar;
+    }
+
     return (
         <View style={styles.calculadoraContainer}>
-            <Text style={styles.resultadoPequeno}>{numeroAnterior}</Text>
+            {
+                (numeroAnterior !== '0') && (
+                    <Text style={styles.resultadoPequeno}>{numeroAnterior}</Text>
+                )
+            }
+            
             <Text 
                 style={styles.resultado}
                 numberOfLines={1}
@@ -80,28 +118,28 @@ export const CalculadoraScreen = () => {
                 <BotonCal texto="C" color="#9B9B9B" action={limpiar}/>
                 <BotonCal texto="+/-" color="#9B9B9B" action={positivoNegativo}/>
                 <BotonCal texto="del" color="#9B9B9B" action={btnDelete}/>
-                <BotonCal texto="/" color="#FF9427" action={limpiar}/>
+                <BotonCal texto="/" color="#FF9427" action={btnDividir}/>
             </View>
              {/* Fila de botones */}
             <View style={styles.fila}>
                 <BotonCal texto="7" action={armarNumero}/>
                 <BotonCal texto="8" action={armarNumero}/>
                 <BotonCal texto="9" action={armarNumero}/>
-                <BotonCal texto="X" color="#FF9427" action={limpiar}/>
+                <BotonCal texto="X" color="#FF9427" action={btnMultiplicar}/>
             </View>
              {/* Fila de botones */}
             <View style={styles.fila}>
                 <BotonCal texto="4" action={armarNumero}/>
                 <BotonCal texto="5" action={armarNumero}/>
                 <BotonCal texto="6" action={armarNumero}/>
-                <BotonCal texto="-" color="#FF9427" action={limpiar}/>
+                <BotonCal texto="-" color="#FF9427" action={btnRestar}/>
             </View>
              {/* Fila de botones */}
             <View style={styles.fila}>
                 <BotonCal texto="1" action={armarNumero}/>
                 <BotonCal texto="2" action={armarNumero}/>
                 <BotonCal texto="3" action={armarNumero}/>
-                <BotonCal texto="+" color="#FF9427" action={limpiar}/>
+                <BotonCal texto="+" color="#FF9427" action={btnSumar}/>
             </View>
              {/* Fila de botones */}
             <View style={styles.fila}>
