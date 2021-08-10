@@ -1,15 +1,9 @@
-import React from 'react'
-import { Text, View } from 'react-native'
-import { BotonCal } from '../components/BotonCal'
-import { styles } from '../theme/appTheme'
+import React from 'react';
+import { Text, View } from 'react-native';
+import { BotonCal } from '../components/BotonCal';
+import { styles } from '../theme/appTheme';
 
 import { useCalculadora } from '../hooks/useCalculadora';
-
-// enum Operadores {
-//     sumar, restar, multiplicar, dividir
-// }
-
-
 
 export const CalculadoraScreen = () => {
 
