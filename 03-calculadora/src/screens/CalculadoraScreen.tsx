@@ -43,12 +43,27 @@ export const CalculadoraScreen = () => {
 
     }
 
+    
     const positivoNegativo = () => {
         if(numero.includes('-')) {
             setNumero(numero.replace('-', ''));
         } else {
             setNumero('-' + numero);
         }
+    }
+
+    const btnDelete = () => {
+       let negativo = '';
+       let numeroTemp = numero;
+       if(numero.includes('-')) {
+           negativo = '-';
+           numeroTemp = numero.substr(1);
+       }
+       if(numeroTemp.length > 1) {
+           setNumero(negativo + numeroTemp.slice(0, -1));
+       } else {
+           setNumero('0');
+       }
     }
 
     return (
@@ -64,7 +79,7 @@ export const CalculadoraScreen = () => {
             <View style={styles.fila}>
                 <BotonCal texto="C" color="#9B9B9B" action={limpiar}/>
                 <BotonCal texto="+/-" color="#9B9B9B" action={positivoNegativo}/>
-                <BotonCal texto="del" color="#9B9B9B" action={limpiar}/>
+                <BotonCal texto="del" color="#9B9B9B" action={btnDelete}/>
                 <BotonCal texto="/" color="#FF9427" action={limpiar}/>
             </View>
              {/* Fila de botones */}
