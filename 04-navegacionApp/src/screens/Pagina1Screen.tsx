@@ -9,7 +9,7 @@ export const Pagina1Screen = ({navigation}: Props) => {
     
     return (
         <View style={styles.globalMargin}>
-            <Text>Página1Screen</Text>
+            <Text style={styles.title}>Página1Screen</Text>
             <Button 
                 title="Ir a página 2"
                 onPress={() => navigation.navigate('Pagina2Screen')}
