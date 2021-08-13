@@ -4,21 +4,28 @@ import React from 'react';
 import { useEffect } from 'react';
 import { Button, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from '../theme/appTheme';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 // interface Props extends StackScreenProps<any, any> {};
-interface Props extends DrawerScreenProps<any, any> {};
+interface Props extends DrawerScreenProps<any, any> { };
 
 export const Pagina1Screen = ({ navigation }: Props) => {
 
     useEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
-                <Button 
-                    title="Menú"
+                // <Button 
+                //     title="Menú"
+                //     onPress={() => navigation.toggleDrawer()}
+                // />
+                <TouchableOpacity
                     onPress={() => navigation.toggleDrawer()}
-                />
+                    style={{ marginLeft: 10 }}>
+                    <Icon name='menu-outline' size={35} />
+                </TouchableOpacity>
             ),
-            
+
         })
     }, [])
 
@@ -29,7 +36,7 @@ export const Pagina1Screen = ({ navigation }: Props) => {
                 title="Ir a página 2"
                 onPress={() => navigation.navigate('Pagina2Screen')}
             />
-            <Text style={{marginVertical: 20, fontSize: 20, marginLeft: 5}}>Navegar con argumentos</Text>
+            <Text style={{ marginVertical: 20, fontSize: 20, marginLeft: 5 }}>Navegar con argumentos</Text>
 
             <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
@@ -43,6 +50,7 @@ export const Pagina1Screen = ({ navigation }: Props) => {
                     })}
 
                 >
+                    <Icon name='body-outline' size={35} color='white'/>
                     <Text style={styles.botonGrandeTexto}>Jonathan</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -56,6 +64,7 @@ export const Pagina1Screen = ({ navigation }: Props) => {
                     })}
 
                 >
+                    <Icon name='body-outline' size={35} color='white'/>
                     <Text style={styles.botonGrandeTexto}>Iliana</Text>
                 </TouchableOpacity>
             </View>

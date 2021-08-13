@@ -7,6 +7,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colores } from '../theme/appTheme';
 import { Text } from 'react-native';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 const Tab = createMaterialTopTabNavigator();
 
 export const TopTabNavigator = () => {
@@ -35,18 +37,19 @@ export const TopTabNavigator = () => {
                     let iconName: string = '';
                     switch (route.name) {
                       case 'Chat':
-                        iconName = 'Ch'
+                        iconName = 'analytics-outline'
                         break;
                       case 'Contacts':
-                        iconName = 'Co'
+                        iconName = 'albums-outline'
                         break;
                       case 'Albums':
-                        iconName = 'Al'
+                        iconName = 'home-outline'
                         break;
           
                     }
           
-                    return <Text style={{ color }}>{iconName}</Text>
+                    // return <Text style={{ color }}>{iconName}</Text>
+                    return <Icon name={iconName} size={20} color={color} />
                   }
                 
             })}
