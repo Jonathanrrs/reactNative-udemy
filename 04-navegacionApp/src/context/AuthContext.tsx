@@ -2,6 +2,8 @@
 /* Definir cómo luce o qué información tendré aquí */
 
 import React, { createContext } from "react"
+import { useReducer } from "react";
+import { authReducer } from "./AuthReducer";
 
 export interface AuthState {
     isLoggedIn: boolean;
@@ -32,11 +34,12 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({children}: any) => {
 
-    
+    const [authState, dispatch] = useReducer(authReducer, AuthInitialState)
+
 
     return(
         <AuthContext.Provider value={{
-            authState: AuthInitialState,
+            authState: authState,
             signIn: () => {}
         }}>
             {children}
