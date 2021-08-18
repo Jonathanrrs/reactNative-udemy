@@ -3,13 +3,16 @@ import { Button, Text, View } from 'react-native';
 import movieDb from '../api/movieDB';
 
 
+import { MovieDBNowPlaying } from '../interfaces/movieInterface';
+
+
 export const HomeScreen = () => {
 
     useEffect(() => {
         
-        movieDb.get('now_playing')
+        movieDb.get<MovieDBNowPlaying>('now_playing')
             .then(resp => {
-                console.log(resp.data);
+                console.log(resp.data.results[0].title);
                 
             })
 
