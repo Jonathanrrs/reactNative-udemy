@@ -1,24 +1,23 @@
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Text, View } from 'react-native';
+import movieDb from '../api/movieDB';
 
-interface Props extends StackScreenProps<any, any>{};
 
-export const HomeScreen = ({navigation}: Props) => {
+export const HomeScreen = () => {
 
-    // const navigator = useNavigation();
+    useEffect(() => {
+        
+        movieDb.get('now_playing')
+            .then(resp => {
+                console.log(resp.data);
+                
+            })
 
+    }, [])
 
     return (
         <View>
             <Text>Homescreen</Text>
-
-            <Button 
-                title="Ir detalle"
-                // onPress={() => navigator.dispatch(CommonActions.navigate({name: 'Detail', }))}
-                onPress={() => navigation.navigate('Detail')}
-            />
         </View>
     )
 }
