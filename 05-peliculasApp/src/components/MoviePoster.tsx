@@ -1,6 +1,9 @@
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Movie } from '../interfaces/movieInterface'
+import { RootStackParams } from '../navigation/Navigation'
 
 interface Props {
     movie: Movie;
@@ -8,23 +11,32 @@ interface Props {
     width?: number;
 }
 
-export const MoviePoster = ({ movie, height = 420, width  }: Props) => {
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParams, 'HomeScreen'>
+
+export const MoviePoster = ({ movie, height = 420, width }: Props) => {
 
     const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
 
+
+    const navigation = useNavigation<HomeScreenNavigationProp>();
+
+
     return (
-        <View style={{
-            width,
-            height,
-            marginHorizontal: 8
-        }}>
+        <TouchableOpacity
+            onPress={() => navigation.navigate('DetailScreen', movie)}
+            activeOpacity={0.8}
+            style={{
+                width,
+                height,
+                marginHorizontal: 8
+            }}>
             <View style={styles.imageContainer}>
                 <Image
                     source={{ uri: uri }}
                     style={styles.image}
                 />
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
