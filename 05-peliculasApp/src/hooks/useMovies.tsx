@@ -1,26 +1,50 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import movieDb from "../api/movieDB";
-import { Movie, MovieDBNResponse } from "../interfaces/movieInterface";
+import movieDB from "../api/movieDB";
+import { Movie, MovieDBMoviesResponse } from "../interfaces/movieInterface";
 
+interface MoviesState {
+    nowPlaying: Movie[];
+    popular: Movie[];
+    topRated: Movie[];
+    upcoming: Movie[];
+}
 
 export const useMovies = () => {
-    
+
     const [isLoading, setIsLoading] = useState(true);
-    const [peliculasEnCine, setPeliculasEnCine] = useState<Movie[]>([])
-    const [peliculasPopulares, setPeliculasPopulares] = useState<Movie[]>([])
+    const [moviesState, setMoviesState] = useState<MoviesState>({
+        nowPlaying: [],
+        popular: [],
+        topRated: [],
+        upcoming: [],
+    })
 
     const getMovies = async () => {
-        const respNowPlaying = await movieDb.get<MovieDBNResponse>('/now_playing');
-        const respPopular = await movieDb.get<MovieDBNResponse>('/popular');
+        const nowPlayingPromise = movieDB.get<MovieDBMoviesResponse>('/now_playing');
+        const popularPromise = movieDB.get<MovieDBMoviesResponse>('/popular');
+        const topRatedPromise = movieDB.get<MovieDBMoviesResponse>('/top_rated');
+        const upcomingPromise = movieDB.get<MovieDBMoviesResponse>('/upcoming');
 
-        await movieDb.get<MovieDBNResponse>('/top_rated');
-        await movieDb.get<MovieDBNResponse>('/upcoming');
+        /* se puede poner await a una promesa */
+        const resps = await Promise.all([
+            nowPlayingPromise,
+            popularPromise,
+            topRatedPromise,
+            upcomingPromise
+        ]);
 
-        setPeliculasEnCine(respNowPlaying.data.results);
-        setPeliculasPopulares(respPopular.data.results);
+        setMoviesState({
+            nowPlaying: resps[0].data.results,
+            popular: resps[1].data.results,
+            topRated: resps[2].data.results,
+            upcoming: resps[3].data.results,
+        })
+
+
+
         setIsLoading(false);
-        
+
     }
 
     useEffect(() => {
@@ -28,8 +52,8 @@ export const useMovies = () => {
     }, [])
 
     return {
-        peliculasEnCine,
-        peliculasPopulares,
+        /* para tener las prpiedades que tenga el state*/
+        ...moviesState,
         isLoading
     }
 }
