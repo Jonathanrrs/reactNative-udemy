@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Dimensions, Text, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Text, View, FlatList, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MoviePoster } from '../components/MoviePoster';
 import { useMovies } from '../hooks/useMovies';
@@ -23,10 +23,9 @@ export const HomeScreen = () => {
     }
 
     return (
+        <ScrollView>
         <View style={{marginTop: top+20}}>
-            {/* <MoviePoster 
-                movie={peliculasEnCine[3]}
-            /> */}
+            {/* carrousel principal */}
             <View style={{height: 440}}>
             <Carousel 
                 data={peliculasEnCine}
@@ -35,6 +34,20 @@ export const HomeScreen = () => {
                 itemWidth={300}
             />
             </View>
+            {/* peliculas populares */}
+            <View style={{backgroundColor: 'red', height: 260}}>
+                <Text style={{fontSize: 30, fontWeight: 'bold'}}>En cine</Text>
+                <FlatList 
+                    data={peliculasEnCine}
+                    renderItem={({item}: any) => (
+                    <MoviePoster movie={item} width={140} height={200} />
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
         </View> 
+        </ScrollView>
     )
 }
