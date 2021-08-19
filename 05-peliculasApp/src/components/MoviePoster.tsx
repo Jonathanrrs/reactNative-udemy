@@ -15,7 +15,7 @@ type HomeScreenNavigationProp = StackNavigationProp<RootStackParams, 'HomeScreen
 
 export const MoviePoster = ({ movie, height = 420, width }: Props) => {
 
-    const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
 
 
     const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -28,7 +28,9 @@ export const MoviePoster = ({ movie, height = 420, width }: Props) => {
             style={{
                 width,
                 height,
-                marginHorizontal: 8
+                marginHorizontal: 2,
+                paddingBottom: 20,
+                paddingHorizontal: 7
             }}>
             <View style={styles.imageContainer}>
                 <Image
