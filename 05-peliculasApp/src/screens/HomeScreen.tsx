@@ -6,6 +6,7 @@ import { useMovies } from '../hooks/useMovies';
 
 import Carousel from 'react-native-snap-carousel';
 import { HorizontalSlider } from '../components/HorizontalSlider';
+import { GradientBackground } from '../components/GradientBackground';
 
 
 const {width: windowWidth} = Dimensions.get('window');
@@ -24,6 +25,7 @@ export const HomeScreen = () => {
     }
 
     return (
+        <GradientBackground>
         <ScrollView>
         <View style={{marginTop: top+20}}>
             {/* carrousel principal */}
@@ -42,5 +44,6 @@ export const HomeScreen = () => {
            <HorizontalSlider title="Upcoming" movies={upcoming}  />
         </View> 
         </ScrollView>
+        </GradientBackground>
     )
 }
