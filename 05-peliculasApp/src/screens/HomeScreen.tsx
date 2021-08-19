@@ -10,6 +10,7 @@ import { GradientBackground } from '../components/GradientBackground';
 import { getImageColors } from '../helper/getColores';
 import { useContext } from 'react';
 import { GradientContext } from '../context/GradientContext';
+import { useEffect } from 'react';
 
 
 
@@ -29,11 +30,15 @@ export const HomeScreen = () => {
 
         const [primary = 'green', secondary= 'orange'] = await getImageColors(uri);
 
-        setMainColors({primary, secondary});
-        
-        
-        
+        setMainColors({primary, secondary}); 
     }
+
+    useEffect(() => {
+       if(nowPlaying.length > 0) {
+           getPosterColors(0);
+       }
+        
+    }, [nowPlaying])
 
 
 
