@@ -7,6 +7,8 @@ import { useMovies } from '../hooks/useMovies';
 import Carousel from 'react-native-snap-carousel';
 import { HorizontalSlider } from '../components/HorizontalSlider';
 import { GradientBackground } from '../components/GradientBackground';
+import ImageColors from 'react-native-image-colors';
+
 
 
 const {width: windowWidth} = Dimensions.get('window');
@@ -15,6 +17,17 @@ export const HomeScreen = () => {
 
     const {isLoading, nowPlaying, popular, topRated, upcoming} = useMovies();
     const {top} = useSafeAreaInsets();
+
+    const getPosterColors = async(index: number) => {
+        const movie = nowPlaying[index];
+        const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        const colors = await ImageColors.getColors(uri, {});
+        console.log(colors);
+        
+        
+    }
+
+
 
     if(isLoading) {
         return(
@@ -36,6 +49,7 @@ export const HomeScreen = () => {
                 sliderWidth={windowWidth}
                 itemWidth={300}
                 inactiveSlideOpacity={0.9}
+                onSnapToItem={index => getPosterColors(index)}
             />
             </View>
             {/* peliculas populares */}
