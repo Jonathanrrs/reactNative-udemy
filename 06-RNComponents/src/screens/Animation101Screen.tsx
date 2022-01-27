@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
-import { Animated, Button, StyleSheet, View } from 'react-native';
+import { Animated, Button, Easing, StyleSheet, View } from 'react-native';
 
 export const Animation101Screen = () => {
 
 
     const opacity = useRef(new Animated.Value(0)).current;
+    const top = useRef(new Animated.Value(-100)).current;
 
     const fadeIn = () => {
         Animated.timing(
@@ -15,6 +16,16 @@ export const Animation101Screen = () => {
                 useNativeDriver: true
             }
         ).start(() => console.log('end animation'));
+
+        Animated.timing(
+            top,
+            {
+                toValue: 0,
+                duration: 800,
+                useNativeDriver: true,
+                easing: Easing.bounce
+            }
+        ).start()
     }
 
     const fadeOut = () => {
@@ -33,7 +44,11 @@ export const Animation101Screen = () => {
             <Animated.View style={{
                 ...styles.purpleBox,
                 marginBottom: 20,
-                opacity: opacity
+                opacity,
+                /* No se puede la propiedad top */
+                transform: [{
+                    translateY: top
+                }]
             }} />
 
             <Button 
