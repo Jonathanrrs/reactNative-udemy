@@ -1,6 +1,7 @@
 import React from 'react';
 import {SectionList, StyleSheet, View, Text} from 'react-native';
 import {HeaderTitle} from '../components/HeaderTitle';
+import {ItemSeparator} from '../components/ItemSeparator';
 import {styles} from '../theme/appTheme';
 
 interface Casas {
@@ -30,6 +31,14 @@ export const CustomSectionListScreen = () => {
         sections={casas}
         renderItem={({item}) => <Text>{item}</Text>}
         keyExtractor={(item, index) => item + index}
+        /* para que tenga un titulo el screen */
+        ListHeaderComponent={() => <HeaderTitle title="Section List" />}
+        /* footer de la lista */
+        ListFooterComponent={() => (
+          <View style={stylesScreen.footerSection}>
+            <HeaderTitle title={'Total de casas ' + casas.length} />
+          </View>
+        )}
         /* para animacion en Android */
         stickySectionHeadersEnabled={true}
         /* nombre de las secciones */
@@ -39,6 +48,13 @@ export const CustomSectionListScreen = () => {
             <HeaderTitle title={section.casa} />
           </View>
         )}
+        /* footer para cada sección */
+        renderSectionFooter={({section}) => (
+          <HeaderTitle title={'Total: ' + section.data.length} />
+        )}
+        ItemSeparatorComponent={() => <ItemSeparator />}
+        /* no mostrar el scroll */
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -50,5 +66,8 @@ const stylesScreen = StyleSheet.create({
   },
   sectionHeader: {
     backgroundColor: 'white',
+  },
+  footerSection: {
+    marginBottom: 10,
   },
 });
