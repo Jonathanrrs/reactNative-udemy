@@ -59,7 +59,7 @@ export const TextInputScreen = () => {
             keyboardType="numeric"
           />
         </View>
-        <View style={{height: 100}} />
+        <View style={stylesScreen.heightView} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -74,5 +74,8 @@ const stylesScreen = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.3)',
     marginVertical: 10,
     color: 'black',
+  },
+  heightView: {
+    height: 100,
   },
 });
