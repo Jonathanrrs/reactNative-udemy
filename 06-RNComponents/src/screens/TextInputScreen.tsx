@@ -1,30 +1,28 @@
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, KeyboardAvoidingView, Platform } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { HeaderTitle } from '../components/HeaderTitle';
-import { styles } from '../theme/appTheme';
+import React from 'react';
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {HeaderTitle} from '../components/HeaderTitle';
+import {styles} from '../theme/appTheme';
+import {useForm} from '../hooks/useForm';
+import {CustomSwitch} from '../components/CustomSwitch';
 
 export const TextInputScreen = () => {
-
-
-  const [form, setForm] = useState({
+  const {isSubscribed, form, onChange} = useForm({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    isSubscribed: false,
   });
-
-
-  const onChange = (value: string, field: string) => {
-    setForm({
-      ...form,
-      [field]: value
-    })
-  }
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView>
         <View style={styles.globalMargin}>
           <HeaderTitle title="TextInputs" />
@@ -34,7 +32,7 @@ export const TextInputScreen = () => {
             autoCorrect={false}
             autoCapitalize="words"
             /* aqui debemos indicarle el campo porque no hay etiqueta name en rn */
-            onChangeText={(value) => onChange(value, 'name')}
+            onChangeText={value => onChange(value, 'name')}
           />
           <TextInput
             style={stylesScreen.inputStyle}
@@ -42,8 +40,13 @@ export const TextInputScreen = () => {
             autoCorrect={false}
             autoCapitalize="none"
             /* aqui debemos indicarle el campo porque no hay etiqueta name en rn */
-            onChangeText={(value) => onChange(value, 'email')}
+            onChangeText={value => onChange(value, 'email')}
             keyboardType="email-address"
+          />
+
+          <CustomSwitch
+            isOn={isSubscribed}
+            onChange={value => onChange(value, 'isSubscribed')}
           />
           <HeaderTitle title={JSON.stringify(form, null, 3)} />
           <HeaderTitle title={JSON.stringify(form, null, 3)} />
@@ -52,14 +55,14 @@ export const TextInputScreen = () => {
             style={stylesScreen.inputStyle}
             placeholder="Ingrese su telefono"
             /* aqui debemos indicarle el campo porque no hay etiqueta name en rn */
-            onChangeText={(value) => onChange(value, 'phone')}
-            keyboardType='numeric'
+            onChangeText={value => onChange(value, 'phone')}
+            keyboardType="numeric"
           />
         </View>
-        <View style={{height:100}}/>
+        <View style={{height: 100}} />
       </ScrollView>
     </KeyboardAvoidingView>
-  )
+  );
 };
 
 const stylesScreen = StyleSheet.create({
@@ -70,6 +73,6 @@ const stylesScreen = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'rgba(0,0,0,0.3)',
     marginVertical: 10,
-    color: 'black'
-  }
+    color: 'black',
+  },
 });
