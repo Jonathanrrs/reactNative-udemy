@@ -6,10 +6,12 @@ import {
   Text,
   Dimensions,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {View} from 'react-native';
 import {useState} from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -62,11 +64,17 @@ export const SlidesScreen = () => {
           setActiveIndex(index);
         }}
       />
-      <Pagination
-        dotsLength={items.length}
-        activeDotIndex={activeIndex}
-        dotStyle={styles.pagination}
-      />
+      <View style={styles.containerPagination}>
+        <Pagination
+          dotsLength={items.length}
+          activeDotIndex={activeIndex}
+          dotStyle={styles.pagination}
+        />
+        <TouchableOpacity style={styles.touchable} activeOpacity={0.8}>
+          <Text style={styles.textTouchable}>Entrar</Text>
+          <Icon name="chevron-forward-outline" color="white" size={30} />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -101,5 +109,24 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 10,
     backgroundColor: '#5856D6',
+  },
+  touchable: {
+    flexDirection: 'row',
+    backgroundColor: '#5856D6',
+    width: 140,
+    height: 50,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textTouchable: {
+    fontSize: 25,
+    color: 'white',
+  },
+  containerPagination: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    alignItems: 'center',
   },
 });
