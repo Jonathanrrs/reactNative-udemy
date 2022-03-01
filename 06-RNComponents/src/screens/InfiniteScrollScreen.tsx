@@ -1,11 +1,6 @@
 import React, {useState} from 'react';
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import {View, FlatList, StyleSheet, ActivityIndicator} from 'react-native';
+import {FadeInImage} from '../components/FadeInImage';
 import {HeaderTitle} from '../components/HeaderTitle';
 
 export const InfiniteScrollScreen = () => {
@@ -22,10 +17,11 @@ export const InfiniteScrollScreen = () => {
   };
 
   const renderItem = (item: number) => (
-    <Image
-      source={{uri: `https://picsum.photos/id/${item}/500/400`}}
-      style={styles.imageItem}
-    />
+    // <Image
+    //   source={{uri: `https://picsum.photos/id/${item}/500/400`}}
+    //   style={styles.imageItem}
+    // />
+    <FadeInImage uri={`https://picsum.photos/id/${item}/500/400`} />
   );
 
   return (
