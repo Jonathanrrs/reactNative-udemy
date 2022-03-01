@@ -1,4 +1,5 @@
-import React from 'react';
+import {StackScreenProps} from '@react-navigation/stack';
+import React, {useState, useRef} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,11 +8,12 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  Animated,
+  View,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {View} from 'react-native';
-import {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useAnimation} from '../hooks/useAnimation';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -20,6 +22,8 @@ interface Slide {
   desc: string;
   img: ImageSourcePropType;
 }
+
+interface Props extends StackScreenProps<any, any> {}
 
 const items: Slide[] = [
   {
@@ -39,9 +43,10 @@ const items: Slide[] = [
   },
 ];
 
-export const SlidesScreen = () => {
+export const SlidesScreen = ({navigation}: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const {opacity, fadeIn} = useAnimation();
+  const isVisible = useRef(false);
   const renderItem = (item: Slide) => (
     <View style={styles.containerItem}>
       <Image source={item.img} style={styles.image} />
@@ -62,6 +67,10 @@ export const SlidesScreen = () => {
         layout="default"
         onSnapToItem={index => {
           setActiveIndex(index);
+          if (index === 2) {
+            isVisible.current = true;
+            fadeIn();
+          }
         }}
       />
       <View style={styles.containerPagination}>
@@ -70,10 +79,19 @@ export const SlidesScreen = () => {
           activeDotIndex={activeIndex}
           dotStyle={styles.pagination}
         />
-        <TouchableOpacity style={styles.touchable} activeOpacity={0.8}>
-          <Text style={styles.textTouchable}>Entrar</Text>
-          <Icon name="chevron-forward-outline" color="white" size={30} />
-        </TouchableOpacity>
+        <Animated.View style={{opacity}}>
+          <TouchableOpacity
+            style={styles.touchable}
+            activeOpacity={0.8}
+            onPress={() => {
+              if (isVisible.current) {
+                navigation.navigate('HomeScreen');
+              }
+            }}>
+            <Text style={styles.textTouchable}>Entrar</Text>
+            <Icon name="chevron-forward-outline" color="white" size={30} />
+          </TouchableOpacity>
+        </Animated.View>
       </View>
     </SafeAreaView>
   );
