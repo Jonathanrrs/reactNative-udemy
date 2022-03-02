@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 import {useAnimation} from '../hooks/useAnimation';
 
 const {width: screenWidth} = Dimensions.get('window');
@@ -44,14 +45,17 @@ const items: Slide[] = [
 ];
 
 export const SlidesScreen = ({navigation}: Props) => {
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
   const [activeIndex, setActiveIndex] = useState(0);
   const {opacity, fadeIn} = useAnimation();
   const isVisible = useRef(false);
   const renderItem = (item: Slide) => (
-    <View style={styles.containerItem}>
+    <View style={[styles.containerItem, {backgroundColor: colors.background}]}>
       <Image source={item.img} style={styles.image} />
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.subTitle}>{item.desc}</Text>
+      <Text style={[styles.title, {color: colors.primary}]}>{item.title}</Text>
+      <Text style={[styles.subTitle, {color: colors.text}]}>{item.desc}</Text>
     </View>
   );
   return (
@@ -77,18 +81,18 @@ export const SlidesScreen = ({navigation}: Props) => {
         <Pagination
           dotsLength={items.length}
           activeDotIndex={activeIndex}
-          dotStyle={styles.pagination}
+          dotStyle={[styles.pagination, {backgroundColor: colors.background}]}
         />
         <Animated.View style={{opacity}}>
           <TouchableOpacity
-            style={styles.touchable}
+            style={[styles.touchable, {backgroundColor: colors.primary}]}
             activeOpacity={0.8}
             onPress={() => {
               if (isVisible.current) {
                 navigation.navigate('HomeScreen');
               }
             }}>
-            <Text style={styles.textTouchable}>Entrar</Text>
+            <Text style={[styles.textTouchable]}>Entrar</Text>
             <Icon name="chevron-forward-outline" color="white" size={30} />
           </TouchableOpacity>
         </Animated.View>
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
   },
   containerItem: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     borderRadius: 5,
     padding: 4,
     justifyContent: 'center',
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#5856D6',
+    // color: '#5856D6',
   },
   subTitle: {
     fontSize: 16,
@@ -126,11 +130,11 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 10,
-    backgroundColor: '#5856D6',
+    // backgroundColor: '#5856D6',
   },
   touchable: {
     flexDirection: 'row',
-    backgroundColor: '#5856D6',
+    // backgroundColor: '#5856D6',
     width: 140,
     height: 50,
     borderRadius: 10,

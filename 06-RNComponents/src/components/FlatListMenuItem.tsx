@@ -22,8 +22,10 @@ export const FlatListMenuItem = ({menuItem}: Props) => {
       <View style={styles.container}>
         <Icon name={menuItem.icon} color={colors.primary} size={23} />
 
-        <Text style={styles.itemText}>{menuItem.name}</Text>
-        <View style={{flex: 1}} />
+        <Text style={[styles.itemText, {color: colors.text}]}>
+          {menuItem.name}
+        </Text>
+        <View style={styles.containerView} />
 
         <Icon name="chevron-forward-outline" color={colors.primary} size={23} />
       </View>
@@ -38,5 +40,8 @@ const styles = StyleSheet.create({
   itemText: {
     marginLeft: 10,
     fontSize: 19,
+  },
+  containerView: {
+    flex: 1,
   },
 });

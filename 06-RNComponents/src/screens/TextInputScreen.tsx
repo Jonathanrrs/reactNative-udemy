@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -11,6 +11,7 @@ import {HeaderTitle} from '../components/HeaderTitle';
 import {styles} from '../theme/appTheme';
 import {useForm} from '../hooks/useForm';
 import {CustomSwitch} from '../components/CustomSwitch';
+import {ThemeContext} from '../context/themeContext/ThemeContext';
 
 export const TextInputScreen = () => {
   const {isSubscribed, form, onChange} = useForm({
@@ -19,6 +20,9 @@ export const TextInputScreen = () => {
     phone: '',
     isSubscribed: false,
   });
+  const {
+    theme: {colors},
+  } = useContext(ThemeContext);
 
   return (
     <KeyboardAvoidingView
@@ -27,18 +31,20 @@ export const TextInputScreen = () => {
         <View style={styles.globalMargin}>
           <HeaderTitle title="TextInputs" />
           <TextInput
-            style={stylesScreen.inputStyle}
+            style={[stylesScreen.inputStyle, {borderColor: colors.text}]}
             placeholder="Ingrese su nombre"
             autoCorrect={false}
             autoCapitalize="words"
+            placeholderTextColor={colors.text}
             /* aqui debemos indicarle el campo porque no hay etiqueta name en rn */
             onChangeText={value => onChange(value, 'name')}
           />
           <TextInput
-            style={stylesScreen.inputStyle}
+            style={[stylesScreen.inputStyle, {borderColor: colors.text}]}
             placeholder="Ingrese su email"
             autoCorrect={false}
             autoCapitalize="none"
+            placeholderTextColor={colors.text}
             /* aqui debemos indicarle el campo porque no hay etiqueta name en rn */
             onChangeText={value => onChange(value, 'email')}
             keyboardType="email-address"
@@ -52,8 +58,9 @@ export const TextInputScreen = () => {
           <HeaderTitle title={JSON.stringify(form, null, 3)} />
 
           <TextInput
-            style={stylesScreen.inputStyle}
+            style={[stylesScreen.inputStyle, {borderColor: colors.text}]}
             placeholder="Ingrese su telefono"
+            placeholderTextColor={colors.text}
             /* aqui debemos indicarle el campo porque no hay etiqueta name en rn */
             onChangeText={value => onChange(value, 'phone')}
             keyboardType="numeric"
@@ -71,7 +78,7 @@ const stylesScreen = StyleSheet.create({
     height: 50,
     paddingHorizontal: 10,
     borderRadius: 10,
-    borderColor: 'rgba(0,0,0,0.3)',
+    // borderColor: 'rgba(0,0,0,0.3)',
     marginVertical: 10,
     color: 'black',
   },
