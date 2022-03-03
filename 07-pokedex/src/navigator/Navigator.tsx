@@ -1,16 +1,16 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen} from '../screens/HomeScreen';
 import {PokemonScreen} from '../screens/PokemonScreen';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export const Navigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: {backgroundColor: 'white'},
+        contentStyle: {backgroundColor: 'white'},
       }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="PokemonScreen" component={PokemonScreen} />
