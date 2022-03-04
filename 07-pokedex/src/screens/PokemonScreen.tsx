@@ -5,7 +5,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/Navigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { FadeInImage } from '../components/FadeInImage';
+import {FadeInImage} from '../components/FadeInImage';
 
 interface Props extends StackScreenProps<RootStackParams, 'PokemonScreen'> {}
 
@@ -64,5 +64,5 @@ const styles = StyleSheet.create({
     height: 250,
     position: 'absolute',
     bottom: -15,
-  }
+  },
 });
