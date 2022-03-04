@@ -71,6 +71,25 @@ export const PokemonDetail = ({pokemon}: Props) => {
           ))}
         </View>
       </View>
+      {/* stats */}
+      <View style={styles.container}>
+        <Text style={styles.title}>Stats</Text>
+        <View>
+          {pokemon.stats.map((stat, i) => (
+            <View key={stat.stat.name + i} style={styles.typesContainer}>
+              <Text style={styles.statName}>{stat.stat.name}</Text>
+              <Text style={styles.statBase}>{stat.base_stat}</Text>
+            </View>
+          ))}
+        </View>
+        {/* sprite final */}
+        <View style={styles.spriteFinal}>
+          <FadeInImage
+            uri={pokemon.sprites.front_default}
+            style={styles.basicSprite}
+          />
+        </View>
+      </View>
     </ScrollView>
   );
 };
@@ -95,6 +114,18 @@ const styles = StyleSheet.create({
     color: 'black',
     marginRight: 10,
   },
+  statName: {
+    fontSize: 19,
+    color: 'black',
+    marginRight: 10,
+    width: 150,
+  },
+  statBase: {
+    fontSize: 19,
+    color: 'black',
+    marginRight: 10,
+    fontWeight: 'bold',
+  },
   typesContainer: {
     flexDirection: 'row',
   },
@@ -105,5 +136,12 @@ const styles = StyleSheet.create({
   moves: {
     flexWrap: 'wrap',
     flexDirection: 'row',
+  },
+  stats: {
+    flexDirection: 'row',
+  },
+  spriteFinal: {
+    marginBottom: 20,
+    alignItems: 'center',
   },
 });
