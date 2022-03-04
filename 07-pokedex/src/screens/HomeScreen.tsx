@@ -1,15 +1,15 @@
 import React from 'react';
 import {
-  Text,
   Image,
   FlatList,
   ActivityIndicator,
   StyleSheet,
+  Text,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {PokemonCard} from '../components/PokemonCard';
 import {usePokemonPaginated} from '../hooks/usePokemonPaginated';
 import {styles} from '../theme/appTheme';
-import { FadeInImage } from '../components/FadeInImage';
 
 export const HomeScreen = () => {
   const {top} = useSafeAreaInsets();
@@ -23,9 +23,7 @@ export const HomeScreen = () => {
       <FlatList
         data={simplePokemonList}
         keyExtractor={pokemon => pokemon.id}
-        renderItem={({item}) => (
-          <FadeInImage uri={item.picture} style={stylesScreen.imagePoke} />
-        )}
+        renderItem={({item}) => <PokemonCard pokemon={item} />}
         /* infinite scroll */
         onEndReached={loadPokemons}
         /* aplicar en cuanto se ve la pantalla */
@@ -38,15 +36,20 @@ export const HomeScreen = () => {
           />
         }
         showsVerticalScrollIndicator={false}
+        /* dividir la columna */
+        numColumns={2}
+        ListHeaderComponent={
+          <Text
+            style={{
+              ...styles.title,
+              ...styles.globalMargin,
+              top: top + 20,
+              marginBottom: top + 20,
+            }}>
+            Pokedex
+          </Text>
+        }
       />
-      {/* <Text
-        style={{
-          ...styles.title,
-          ...styles.globalMargin,
-          top: top + 20,
-        }}>
-        Pokedex
-      </Text> */}
     </>
   );
 };
