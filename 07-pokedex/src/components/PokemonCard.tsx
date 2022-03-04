@@ -1,8 +1,17 @@
-import React from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SimplePokemon} from '../interfaces/pokemonInterfaces';
 import {FadeInImage} from './FadeInImage';
+
+import ImageColors from 'react-native-image-colors';
 
 interface Props {
   pokemon: SimplePokemon;
@@ -11,9 +20,31 @@ interface Props {
 const windowWidth = Dimensions.get('window').width;
 
 export const PokemonCard = ({pokemon}: Props) => {
+  const [bgColor, setBgColor] = useState('grey');
+
+  const getColorBG = async () => {
+    const result = await ImageColors.getColors(pokemon.picture, {
+      fallback: 'grey',
+      cache: true,
+      key: 'unique_key',
+    });
+    result.platform === 'ios'
+      ? setBgColor(result.background || 'grey')
+      : setBgColor(result.dominant || 'grey');
+  };
+
+  useEffect(() => {
+    getColorBG();
+  }, []);
+
   return (
     <TouchableOpacity activeOpacity={0.9}>
-      <View style={{...styles.cardContainer, width: windowWidth * 0.4}}>
+      <View
+        style={{
+          ...styles.cardContainer,
+          width: windowWidth * 0.4,
+          backgroundColor: bgColor,
+        }}>
         {/* nombre pokemon y ID */}
         <View>
           <Text style={styles.name}>
@@ -36,7 +67,6 @@ export const PokemonCard = ({pokemon}: Props) => {
 const styles = StyleSheet.create({
   cardContainer: {
     marginHorizontal: 10,
-    backgroundColor: 'red',
     height: 120,
     width: 160,
     marginBottom: 25,
