@@ -48,6 +48,6 @@ export const Tabs = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'red',
+    backgroundColor: 'white',
   },
 });
