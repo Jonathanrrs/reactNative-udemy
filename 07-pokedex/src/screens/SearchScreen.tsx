@@ -30,11 +30,18 @@ export const SearchScreen = () => {
       return setPokemonFiltered([]);
     }
 
-    setPokemonFiltered(
-      simplePokemonList.filter(poke =>
-        poke.name.toLocaleLowerCase().includes(term.toLocaleLowerCase()),
-      ),
-    );
+    if (isNaN(Number(term))) {
+      setPokemonFiltered(
+        simplePokemonList.filter(poke =>
+          poke.name.toLocaleLowerCase().includes(term.toLocaleLowerCase()),
+        ),
+      );
+    } else {
+      const pokemonById = simplePokemonList.find(poke => poke.id === term);
+      /* mas eficiente un find porque se sale una vez lo encuentra */
+      setPokemonFiltered(pokemonById ? [pokemonById] : []);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term]);
 
