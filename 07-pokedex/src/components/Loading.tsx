@@ -13,7 +13,6 @@ export const Loading = () => {
 const stylesScreen = StyleSheet.create({
   fetching: {
     flex: 1,
-    backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
   },

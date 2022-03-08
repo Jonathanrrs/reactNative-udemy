@@ -6,16 +6,18 @@ import {useDebounceValue} from '../hooks/useDebounceValue';
 
 /* para que acepte estilos el componente */
 interface Props {
+  onDebounce: (value: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
-export const SearchInput = ({style}: Props) => {
+export const SearchInput = ({style, onDebounce}: Props) => {
   const [textValue, setTextValue] = useState('');
 
   const debouncedValue = useDebounceValue(textValue);
 
   useEffect(() => {
-    console.log(debouncedValue);
+    onDebounce(debouncedValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
   return (
@@ -62,5 +64,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     top: Platform.OS === 'ios' ? 0 : 2,
+    color: 'black',
   },
 });

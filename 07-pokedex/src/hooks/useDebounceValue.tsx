@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+
 export const useDebounceValue = (input: string = '', time: number = 500) => {
   const [debounceValue, setDebounceValue] = useState(input);
 
@@ -12,7 +13,5 @@ export const useDebounceValue = (input: string = '', time: number = 500) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
-  return {
-    debounceValue,
-  };
+  return debounceValue;
 };
