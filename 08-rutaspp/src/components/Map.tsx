@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import MapView from 'react-native-maps';
 import {useLocation} from '../hooks/useLocation';
 import {LoadingScreen} from '../screens/LoadingScreen';
+import {Fab} from './Fab';
 
 export const Map = () => {
   const {hasLocation, initialPosition} = useLocation();
@@ -33,6 +34,7 @@ export const Map = () => {
           description="Esto es una descripcion del marcador"
         /> */}
       </MapView>
+      <Fab iconName="star-outline" onPress={() => {}} style={styles.fab} />
     </>
   );
 };
@@ -40,5 +42,10 @@ export const Map = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
   },
 });
