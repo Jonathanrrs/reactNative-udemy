@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView from 'react-native-maps';
 
 export const Map = () => {
   return (
     <>
       <MapView
         style={styles.container}
+        showsUserLocation
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
