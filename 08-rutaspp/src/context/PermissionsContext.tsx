@@ -33,6 +33,7 @@ export const PermissionsProvider = ({children}: any) => {
       }
       checkLocationPermission();
     });
+    /* es buena práctica limpiar el appState */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
