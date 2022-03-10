@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import MapView from 'react-native-maps';
 import {useLocation} from '../hooks/useLocation';
@@ -6,13 +6,34 @@ import {LoadingScreen} from '../screens/LoadingScreen';
 import {Fab} from './Fab';
 
 export const Map = () => {
-  const {hasLocation, initialPosition, getCurrentLocation} = useLocation();
+  const {
+    hasLocation,
+    initialPosition,
+    getCurrentLocation,
+    followUserLocation,
+    userLocation,
+  } = useLocation();
   const mapViewRef = useRef<MapView>();
+
+  useEffect(() => {
+    followUserLocation();
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const {latitude, longitud: longitude} = userLocation;
+    mapViewRef.current?.animateCamera({
+      center: {latitude, longitude},
+      zoom: 18,
+    });
+  }, [userLocation]);
 
   const centerPosition = async () => {
     const {latitude, longitud: longitude} = await getCurrentLocation();
     mapViewRef.current?.animateCamera({
       center: {latitude, longitude},
+      zoom: 18,
     });
   };
 

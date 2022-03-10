@@ -5,10 +5,15 @@ import {Location} from '../interfaces/appInterfaces';
 export const useLocation = () => {
   const [hasLocation, setHasLocation] = useState(false);
   const [initialPosition, setInitialPosition] = useState<Location>();
+  const [userLocation, setUserLocation] = useState<Location>({
+    longitud: 0,
+    latitude: 0,
+  });
 
   useEffect(() => {
     getCurrentLocation().then(location => {
       setInitialPosition(location);
+      setUserLocation(location);
       setHasLocation(true);
     });
   }, []);
@@ -30,9 +35,27 @@ export const useLocation = () => {
     });
   };
 
+  const followUserLocation = () => {
+    Geolocation.watchPosition(
+      ({coords}) => {
+        setUserLocation({
+          latitude: coords.latitude,
+          longitud: coords.longitude,
+        });
+      },
+      err => console.log({err}),
+      {
+        enableHighAccuracy: true,
+        distanceFilter: 10,
+      },
+    );
+  };
+
   return {
     hasLocation,
     initialPosition,
     getCurrentLocation,
+    followUserLocation,
+    userLocation,
   };
 };
