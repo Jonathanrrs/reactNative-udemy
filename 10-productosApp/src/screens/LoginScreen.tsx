@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -14,17 +14,19 @@ import {loginStyles} from '../theme/loginTheme';
 import {StyleSheet} from 'react-native';
 import {useForm} from '../hooks/useForm';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthContext} from '../context/AuthContext';
 
 interface Props extends NativeStackScreenProps<any, any> {}
 
 export const LoginScreen = ({navigation}: Props) => {
+  const {singIn} = useContext(AuthContext);
   const {email, password, onChange} = useForm({
     email: '',
     password: '',
   });
 
   const onLogin = () => {
-    console.log('enviado');
+    singIn({correo: email, password});
     /* se oculte el teclado */
     Keyboard.dismiss();
   };
