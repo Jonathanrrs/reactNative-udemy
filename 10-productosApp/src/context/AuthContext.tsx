@@ -75,7 +75,10 @@ export const AuthProvider = ({children}: any) => {
   const removeError = () => {
     dispatch({type: 'removeError'});
   };
-  const logOut = () => {};
+  const logOut = async () => {
+    await AsyncStorage.removeItem('token');
+    dispatch({type: 'logout'});
+  };
 
   return (
     <AuthContext.Provider
