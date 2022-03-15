@@ -39,12 +39,18 @@ export const AuthProvider = ({children}: any) => {
           user: data.usuario,
         },
       });
-    } catch (error) {
-      console.log(error.response.data.errors);
+    } catch (error: any) {
+      // console.log(error.response.data);
+      dispatch({
+        type: 'addError',
+        payload: error.response.data.msg || 'Información incorrecta',
+      });
     }
   };
   const singUp = () => {};
-  const removeError = () => {};
+  const removeError = () => {
+    dispatch({type: 'removeError'});
+  };
   const logOut = () => {};
 
   return (

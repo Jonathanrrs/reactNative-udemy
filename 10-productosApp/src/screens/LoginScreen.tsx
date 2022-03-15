@@ -1,5 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -19,11 +20,21 @@ import {AuthContext} from '../context/AuthContext';
 interface Props extends NativeStackScreenProps<any, any> {}
 
 export const LoginScreen = ({navigation}: Props) => {
-  const {singIn} = useContext(AuthContext);
+  const {singIn, errorMessage, removeError} = useContext(AuthContext);
   const {email, password, onChange} = useForm({
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (errorMessage.length === 0) {
+      return;
+    }
+    Alert.alert('Login incorrecto', errorMessage, [
+      {text: 'Ok', onPress: removeError},
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorMessage]);
 
   const onLogin = () => {
     singIn({correo: email, password});
