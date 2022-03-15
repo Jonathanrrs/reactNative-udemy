@@ -38,6 +38,15 @@ export const AuthProvider = ({children}: any) => {
       return dispatch({type: 'notAuthenticated'});
     }
     /* hay token */
+    const {data} = await cafeApi.get('/auth');
+
+    dispatch({
+      type: 'signUp',
+      payload: {
+        token: data.token,
+        user: data.usuario,
+      },
+    });
   };
 
   const singIn = async ({correo, password}: LoginData) => {
