@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -13,18 +14,30 @@ import {WhiteLogo} from '../components/WhiteLogo';
 import {useForm} from '../hooks/useForm';
 import {loginStyles} from '../theme/loginTheme';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthContext} from '../context/AuthContext';
 
 interface Props extends NativeStackScreenProps<any, any> {}
 
 export const RegisterScreen = ({navigation}: Props) => {
+  const {singUp, errorMessage, removeError} = useContext(AuthContext);
   const {email, password, name, onChange} = useForm({
     email: '',
     password: '',
     name: '',
   });
 
+  useEffect(() => {
+    if (errorMessage.length === 0) {
+      return;
+    }
+    Alert.alert('Login incorrecto', errorMessage, [
+      {text: 'Ok', onPress: removeError},
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorMessage]);
+
   const onRegister = () => {
-    console.log('enviado');
+    singUp({correo: email, password, nombre: name});
     /* se oculte el teclado */
     Keyboard.dismiss();
   };

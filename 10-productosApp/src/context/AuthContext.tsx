@@ -1,6 +1,11 @@
 import React, {createContext, useReducer, useEffect} from 'react';
 import cafeApi from '../api/cafeApi';
-import {LoginResponse, Usuario, LoginData} from '../interfaces/appInterfaces';
+import {
+  LoginResponse,
+  Usuario,
+  LoginData,
+  RegisterData,
+} from '../interfaces/appInterfaces';
 import {authReducer, AuthState} from './authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,7 +14,7 @@ type AuthContextProps = {
   token: string | null;
   user: Usuario | null;
   status: 'checking' | 'authenticated' | 'not-authenticated';
-  singUp: () => void;
+  singUp: (registerData: RegisterData) => void;
   singIn: (loginData: LoginData) => void;
   removeError: () => void;
   logOut: () => void;
@@ -71,7 +76,28 @@ export const AuthProvider = ({children}: any) => {
       });
     }
   };
-  const singUp = () => {};
+  const singUp = async ({nombre, correo, password}: RegisterData) => {
+    try {
+      const {data} = await cafeApi.post<LoginResponse>('/usuarios', {
+        nombre,
+        correo,
+        password,
+      });
+      dispatch({
+        type: 'signUp',
+        payload: {
+          token: data.token,
+          user: data.usuario,
+        },
+      });
+      await AsyncStorage.setItem('token', data.token);
+    } catch (error: any) {
+      dispatch({
+        type: 'addError',
+        payload: error.response.data.msg || 'Información incorrecta',
+      });
+    }
+  };
   const removeError = () => {
     dispatch({type: 'removeError'});
   };
