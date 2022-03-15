@@ -39,7 +39,7 @@ export const AuthProvider = ({children}: any) => {
     }
     /* hay token */
     const {data} = await cafeApi.get('/auth');
-
+    await AsyncStorage.setItem('token', data.token);
     dispatch({
       type: 'signUp',
       payload: {
