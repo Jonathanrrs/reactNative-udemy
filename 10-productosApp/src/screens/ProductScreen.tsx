@@ -22,7 +22,8 @@ export const ProductScreen = ({route, navigation}: Props) => {
   const {id = '', name = ''} = route.params;
   const {categories} = useCategories();
 
-  const {loadProductById} = useContext(ProductsContext);
+  const {loadProductById, addProduct, updateProduct} =
+    useContext(ProductsContext);
 
   const {_id, nombre, img, categoriaId, form, onChange, setFormValue} = useForm(
     {
@@ -34,9 +35,9 @@ export const ProductScreen = ({route, navigation}: Props) => {
   );
 
   useEffect(() => {
-    navigation.setOptions({title: name !== '' ? name : 'Nuevo producto'});
+    navigation.setOptions({title: nombre ? nombre : 'Sin nombre del producto'});
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [nombre]);
 
   useEffect(() => {
     loadProduct();
@@ -56,6 +57,19 @@ export const ProductScreen = ({route, navigation}: Props) => {
     });
   };
 
+  const saveOrUpdate = () => {
+    if (id.length > 0) {
+      updateProduct(categoriaId, nombre, id);
+    } else {
+      // if (categoriaId.length === 0) {
+      //   onChange(categories[0]._id, 'categoriaId');
+      // }
+      /* se reemplaza por esto */
+      const tempCategoriaId = categoriaId || categories[0]._id;
+      addProduct(tempCategoriaId, nombre);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -63,7 +77,7 @@ export const ProductScreen = ({route, navigation}: Props) => {
         <TextInput
           placeholder="Producto"
           style={styles.txtInput}
-          value={name}
+          value={nombre}
           onChangeText={value => onChange(value, 'nombre')}
         />
 
@@ -83,11 +97,13 @@ export const ProductScreen = ({route, navigation}: Props) => {
             />
           ))}
         </Picker>
-        <Button title="Guardar" onPress={() => {}} color="#5856D6" />
-        <View style={styles.containerBtns}>
-          <Button title="Cámara" onPress={() => {}} color="#5856D6" />
-          <Button title="Galeria" onPress={() => {}} color="#5856D6" />
-        </View>
+        <Button title="Guardar" onPress={saveOrUpdate} color="#5856D6" />
+        {id.length > 0 && (
+          <View style={styles.containerBtns}>
+            <Button title="Cámara" onPress={() => {}} color="#5856D6" />
+            <Button title="Galeria" onPress={() => {}} color="#5856D6" />
+          </View>
+        )}
         {img.length > 0 && <Image style={styles.image} source={{uri: img}} />}
       </ScrollView>
     </View>
