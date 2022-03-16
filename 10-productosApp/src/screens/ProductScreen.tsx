@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   Text,
@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   Button,
+  Image,
 } from 'react-native';
 import {ProductsStackParams} from '../navigator/ProductsNavigator';
 import {Picker} from '@react-native-picker/picker';
@@ -23,14 +24,14 @@ export const ProductScreen = ({route, navigation}: Props) => {
 
   const {loadProductById} = useContext(ProductsContext);
 
-  const {_id, nombre, categoriaId, form, onChange, setFormValue} = useForm({
-    _id: id,
-    categoriaId: '',
-    nombre: name,
-    img: '',
-  });
-
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const {_id, nombre, img, categoriaId, form, onChange, setFormValue} = useForm(
+    {
+      _id: id,
+      categoriaId: '',
+      nombre: name,
+      img: '',
+    },
+  );
 
   useEffect(() => {
     navigation.setOptions({title: name !== '' ? name : 'Nuevo producto'});
@@ -70,10 +71,8 @@ export const ProductScreen = ({route, navigation}: Props) => {
         <Text style={styles.label}>Categoría:</Text>
         <Picker
           dropdownIconColor="black"
-          selectedValue={selectedLanguage}
-          onValueChange={(itemValue, itemIndex) =>
-            setSelectedLanguage(itemValue)
-          }>
+          selectedValue={categoriaId}
+          onValueChange={itemValue => onChange(itemValue, 'categoriaId')}>
           {/* <Picker.Item color="black" label="Java" value="java" /> */}
           {categories.map(c => (
             <Picker.Item
@@ -89,7 +88,7 @@ export const ProductScreen = ({route, navigation}: Props) => {
           <Button title="Cámara" onPress={() => {}} color="#5856D6" />
           <Button title="Galeria" onPress={() => {}} color="#5856D6" />
         </View>
-        <Text style={styles.txt}>{JSON.stringify(form, null, 5)}</Text>
+        {img.length > 0 && <Image style={styles.image} source={{uri: img}} />}
       </ScrollView>
     </View>
   );
@@ -123,5 +122,10 @@ const styles = StyleSheet.create({
   },
   txt: {
     color: 'black',
+  },
+  image: {
+    width: '100%',
+    height: 300,
+    marginTop: 20,
   },
 });
