@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 import {ProductsStackParams} from '../navigator/ProductsNavigator';
 import {Picker} from '@react-native-picker/picker';
+import {useCategories} from '../hooks/useCategories';
 
 interface Props
   extends NativeStackScreenProps<ProductsStackParams, 'ProductScreen'> {}
 
 export const ProductScreen = ({route, navigation}: Props) => {
   const {id, name = ''} = route.params;
+  const {categories} = useCategories();
   const [selectedLanguage, setSelectedLanguage] = useState();
 
   useEffect(() => {
@@ -36,8 +38,15 @@ export const ProductScreen = ({route, navigation}: Props) => {
           onValueChange={(itemValue, itemIndex) =>
             setSelectedLanguage(itemValue)
           }>
-          <Picker.Item color="black" label="Java" value="java" />
-          <Picker.Item color="black" label="JavaScript" value="js" />
+          {/* <Picker.Item color="black" label="Java" value="java" /> */}
+          {categories.map(c => (
+            <Picker.Item
+              color="white"
+              label={c.nombre}
+              value={c._id}
+              key={c._id}
+            />
+          ))}
         </Picker>
         <Button title="Guardar" onPress={() => {}} color="#5856D6" />
         <View style={styles.containerBtns}>
