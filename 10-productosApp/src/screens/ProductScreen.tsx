@@ -92,6 +92,25 @@ export const ProductScreen = ({route, navigation}: Props) => {
     );
   };
 
+  const takePhotoFromGallery = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      resp => {
+        if (resp.didCancel) {
+          return;
+        }
+        if (!resp.assets![0].uri) {
+          return;
+        }
+        setTempUri(resp.assets![0].uri);
+        uploadImage(resp, _id);
+      },
+    );
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -123,7 +142,11 @@ export const ProductScreen = ({route, navigation}: Props) => {
         {_id.length > 0 && (
           <View style={styles.containerBtns}>
             <Button title="Cámara" onPress={takePhoto} color="#5856D6" />
-            <Button title="Galeria" onPress={() => {}} color="#5856D6" />
+            <Button
+              title="Galeria"
+              onPress={takePhotoFromGallery}
+              color="#5856D6"
+            />
           </View>
         )}
         {img.length > 0 && !tempUri && (
