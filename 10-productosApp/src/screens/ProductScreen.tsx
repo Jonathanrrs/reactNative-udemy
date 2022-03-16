@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   Text,
@@ -11,13 +11,25 @@ import {
 import {ProductsStackParams} from '../navigator/ProductsNavigator';
 import {Picker} from '@react-native-picker/picker';
 import {useCategories} from '../hooks/useCategories';
+import {useForm} from '../hooks/useForm';
+import {ProductsContext} from '../context/ProductsContext';
 
 interface Props
   extends NativeStackScreenProps<ProductsStackParams, 'ProductScreen'> {}
 
 export const ProductScreen = ({route, navigation}: Props) => {
-  const {id, name = ''} = route.params;
+  const {id = '', name = ''} = route.params;
   const {categories} = useCategories();
+
+  const {loadProductById} = useContext(ProductsContext);
+
+  const {_id, nombre, categoriaId, form, onChange, setFormValue} = useForm({
+    _id: id,
+    categoriaId: '',
+    nombre: name,
+    img: '',
+  });
+
   const [selectedLanguage, setSelectedLanguage] = useState();
 
   useEffect(() => {
@@ -25,15 +37,39 @@ export const ProductScreen = ({route, navigation}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    loadProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadProduct = async () => {
+    if (id.length === 0) {
+      return;
+    }
+    const product = await loadProductById(id);
+    setFormValue({
+      _id: id,
+      categoriaId: product.categoria._id,
+      img: product.img || '',
+      nombre,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.label}>Nombre del producto</Text>
-        <TextInput placeholder="Producto" style={styles.txtInput} />
+        <TextInput
+          placeholder="Producto"
+          style={styles.txtInput}
+          value={name}
+          onChangeText={value => onChange(value, 'nombre')}
+        />
 
         {/* picker / selector */}
         <Text style={styles.label}>Categoría:</Text>
         <Picker
+          dropdownIconColor="black"
           selectedValue={selectedLanguage}
           onValueChange={(itemValue, itemIndex) =>
             setSelectedLanguage(itemValue)
@@ -41,7 +77,7 @@ export const ProductScreen = ({route, navigation}: Props) => {
           {/* <Picker.Item color="black" label="Java" value="java" /> */}
           {categories.map(c => (
             <Picker.Item
-              color="white"
+              color="black"
               label={c.nombre}
               value={c._id}
               key={c._id}
@@ -53,6 +89,7 @@ export const ProductScreen = ({route, navigation}: Props) => {
           <Button title="Cámara" onPress={() => {}} color="#5856D6" />
           <Button title="Galeria" onPress={() => {}} color="#5856D6" />
         </View>
+        <Text style={styles.txt}>{JSON.stringify(form, null, 5)}</Text>
       </ScrollView>
     </View>
   );
@@ -77,10 +114,14 @@ const styles = StyleSheet.create({
     height: 45,
     marginTop: 5,
     marginBottom: 15,
+    color: 'black',
   },
   containerBtns: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
+  },
+  txt: {
+    color: 'black',
   },
 });
