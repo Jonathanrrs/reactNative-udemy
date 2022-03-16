@@ -1,6 +1,7 @@
 import React, {useState, useEffect, createContext} from 'react';
 import {Producto, ProductsResponse} from '../interfaces/appInterfaces';
 import cafeApi from '../api/cafeApi';
+import {ImagePickerResponse} from 'react-native-image-picker';
 
 type ProductsContextProps = {
   products: Producto[];
@@ -63,7 +64,31 @@ export const ProductsProvider = ({children}: any) => {
     const resp = await cafeApi.get<Producto>(`/productos/${id}`);
     return resp.data;
   };
-  const uploadImage = async (data: any, id: string) => {};
+  const uploadImage = async (data: ImagePickerResponse, id: string) => {
+    const fileToUpload = {
+      uri: data.assets![0].uri,
+      type: data.assets![0].type,
+      name: data.assets![0].fileName,
+    };
+    const formData = new FormData();
+    formData.append('archivo', fileToUpload);
+
+    try {
+      const resp = await fetch(
+        `https://cafe-rn-jona.herokuapp.com/api/uploads/productos/${id}`,
+        {
+          method: 'PUT',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      console.log(resp);
+    } catch (error) {
+      console.log({error});
+    }
+  };
 
   return (
     <ProductsContext.Provider
