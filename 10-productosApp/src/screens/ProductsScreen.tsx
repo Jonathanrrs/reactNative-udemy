@@ -1,5 +1,12 @@
-import React, {useContext, useEffect} from 'react';
-import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import {ProductsContext} from '../context/ProductsContext';
 import {ProductsStackParams} from '../navigator/ProductsNavigator';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -9,7 +16,7 @@ interface Props
 
 export const ProductsScreen = ({navigation}: Props) => {
   const {products, loadProducts} = useContext(ProductsContext);
-
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -24,11 +31,22 @@ export const ProductsScreen = ({navigation}: Props) => {
   }, []);
 
   /* Pull to refresh */
+  const loadProductsFromBackend = async () => {
+    setRefreshing(true);
+    await loadProducts();
+    setRefreshing(false);
+  };
   return (
     <View style={styles.container}>
       <FlatList
         data={products}
         keyExtractor={p => p._id}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={loadProductsFromBackend}
+          />
+        }
         renderItem={({item}) => (
           <TouchableOpacity
             activeOpacity={0.8}
