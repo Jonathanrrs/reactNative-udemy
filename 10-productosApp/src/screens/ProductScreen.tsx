@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   Text,
@@ -14,12 +14,14 @@ import {Picker} from '@react-native-picker/picker';
 import {useCategories} from '../hooks/useCategories';
 import {useForm} from '../hooks/useForm';
 import {ProductsContext} from '../context/ProductsContext';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 interface Props
   extends NativeStackScreenProps<ProductsStackParams, 'ProductScreen'> {}
 
 export const ProductScreen = ({route, navigation}: Props) => {
   const {id = '', name = ''} = route.params;
+  const [tempUri, setTempUri] = useState<string>();
   const {categories} = useCategories();
 
   const {loadProductById, addProduct, updateProduct} =
@@ -71,6 +73,24 @@ export const ProductScreen = ({route, navigation}: Props) => {
     }
   };
 
+  const takePhoto = () => {
+    launchCamera(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      resp => {
+        if (resp.didCancel) {
+          return;
+        }
+        if (!resp.assets![0].uri) {
+          return;
+        }
+        setTempUri(resp.assets![0].uri);
+      },
+    );
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -101,11 +121,14 @@ export const ProductScreen = ({route, navigation}: Props) => {
         <Button title="Guardar" onPress={saveOrUpdate} color="#5856D6" />
         {_id.length > 0 && (
           <View style={styles.containerBtns}>
-            <Button title="Cámara" onPress={() => {}} color="#5856D6" />
+            <Button title="Cámara" onPress={takePhoto} color="#5856D6" />
             <Button title="Galeria" onPress={() => {}} color="#5856D6" />
           </View>
         )}
-        {img.length > 0 && <Image style={styles.image} source={{uri: img}} />}
+        {img.length > 0 && !tempUri && (
+          <Image style={styles.image} source={{uri: img}} />
+        )}
+        {tempUri && <Image style={styles.image} source={{uri: tempUri}} />}
       </ScrollView>
     </View>
   );
